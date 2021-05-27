@@ -1,3 +1,6 @@
+from collections import deque
+
+
 class node:
     def __init__(self, data):
         self.data = data
@@ -8,7 +11,7 @@ def construct_tree(data_list):
     stack = []
     root = None
     for data in data_list:
-        if data != -1:
+        if data is not None:
             new_node = node(data)
             if len(stack) == 0:
                 root = new_node
@@ -23,7 +26,7 @@ def construct_tree(data_list):
 
 def display_tree(cur):
     # add cur data and its children to str1
-    str1 = str(cur.data) + " ->"
+    str1 = "[" + str(cur.data) + "] ->"
     for d in cur.children:
         str1 += " " + str(d.data) + ","
     str1 += " ."
@@ -33,12 +36,20 @@ def display_tree(cur):
         display_tree(d)
 
 
+def height_in_gtree(cur):
+    height = 0
+    for c in cur.children:
+        c_height = height_in_gtree(c)
+        if height < c_height:
+            height = c_height
+    return height + 1
+
+
 if __name__ == '__main__':
-    n = int(input())
-    arr = [int(item) for item in input().split()]
-    '''
-    arr = [10, 20, 50, None, 60, None, None, 30, 70, 120, None, 80, 110, None, None, 90, 130, None, None, 40,
+    tree_node_list = [10, 20, 50, None, 60, None, None, 30, 70, 120, None, 80, 110, None, None, 90, 130, None, None, 40,
                       100, None, None, None]  # preorder
-    '''
-    root = construct_tree(arr)
+
+    root = construct_tree(tree_node_list)
     display_tree(root)
+    height = height_in_gtree(root)
+    print("height in gtree = %s" % height)
