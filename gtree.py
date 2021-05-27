@@ -1,4 +1,3 @@
-from __future__ import print_function
 from collections import deque
 
 
@@ -186,10 +185,20 @@ def zig_zag_2_stacks(root):
             print()
             level += 1
 
+def remove_leaves(cur):
+    for i in range(len(cur.children)-1,-1,-1):
+        print(cur.children[i].data)
 
 
 if __name__ == '__main__':
         tree_node_list = [10,20,50,None,60,None,None,30,70,120,None,80,110,None,None,90,130,None,None,40,100,None,None,None]  #preorder
+        '''
+        n = int(input())
+        arr = []
+        values = str(input()).split()
+        for i in range(n):
+            tree_node_list[i] = int(values[i])
+        '''
         root = construct_tree(tree_node_list)
         display_tree(root)
         max = max_in_gtree(root)
