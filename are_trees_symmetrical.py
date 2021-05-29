@@ -33,13 +33,37 @@ def display_tree(cur):
         display_tree(d)
 
 
+
+def are_trees_mirror(cur1, cur2):
+    if len(cur1.children) != len(cur2.children):
+        return False
+    # now length of cur1.children and length of cur2.children are equal
+    i = 0
+    j = len(cur2.children) - 1
+
+    while i < len(cur1.children):
+        if not are_trees_mirror(cur1.children[i], cur2.children[j]):
+            return False
+        i += 1
+        j -= 1
+
+    return True
+
+
+# this is similar to are trees mirror, just pass root of one tree twice,
+# because a symmetrical tree is a mirror of itself
+def are_trees_symmetrical(cur):
+    return are_trees_mirror(cur,cur)
+
+
 if __name__ == '__main__':
     n = int(input())
     arr = [int(item) for item in input().split()]
-    '''
-       input : 
-       24
-       10 20 50 -1 60 -1 -1 30 70 -1 80 110 -1 120 -1 -1 90 -1 -1 40 100 -1 -1 -1
-    '''
     root = construct_tree(arr)
-    display_tree(root)
+    # display_tree(root)
+    if are_trees_symmetrical(root):
+        print("true")
+    else:
+        print("false")
+
+

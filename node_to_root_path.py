@@ -33,6 +33,20 @@ def display_tree(cur):
         display_tree(d)
 
 
+def node_to_root_path(cur, data):
+    if cur.data == data:
+        lis = []
+        lis.append(data)
+        return lis
+
+    for child in cur.children:
+        ret_list = node_to_root_path(child, data)
+        if ret_list:
+            ret_list.append(cur.data)
+            return ret_list
+    return []
+
+
 if __name__ == '__main__':
     n = int(input())
     arr = [int(item) for item in input().split()]
@@ -43,3 +57,5 @@ if __name__ == '__main__':
     '''
     root = construct_tree(arr)
     display_tree(root)
+    ret_list = node_to_root_path(root, 90)
+    print(ret_list)

@@ -33,6 +33,33 @@ def display_tree(cur):
         display_tree(d)
 
 
+def node_to_root_path(cur, data):
+    if cur.data == data:
+        lis = []
+        lis.append(data)
+        return lis
+
+    for child in cur.children:
+        ret_list = node_to_root_path(child, data)
+        if ret_list:
+            ret_list.append(cur.data)
+            return ret_list
+    return []
+
+
+def LCA(cur, d1,d2):
+    l1 = node_to_root_path(cur, d1)
+    l2 = node_to_root_path(cur, d2)
+    i = len(l1)-1
+    j = len(l2)-1
+    res = -1
+    while i >= 0 and j >= 0 and l1[i] == l2[j]:
+        res = l1[i]
+        i -= 1
+        j -= 1
+    return res
+
+
 if __name__ == '__main__':
     n = int(input())
     arr = [int(item) for item in input().split()]
@@ -43,3 +70,5 @@ if __name__ == '__main__':
     '''
     root = construct_tree(arr)
     display_tree(root)
+    ret_list = LCA(root, 120,80)
+    print(ret_list)

@@ -37,7 +37,7 @@ def display_tree(cur):
 
 
 def height_in_gtree(cur):
-    height = 0
+    height = -1
     for c in cur.children:
         c_height = height_in_gtree(c)
         if height < c_height:

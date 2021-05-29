@@ -33,13 +33,36 @@ def display_tree(cur):
         display_tree(d)
 
 
+def get_tail(cur):
+    tail = cur
+    while len(tail.children) != 0:
+        tail = tail.children[0]
+    return tail
+
+
+def linearize(cur):
+    for c in cur.children:
+        linearize(c)
+
+    # run reverse loop from second last child till first child
+    for i in range(len(cur.children)-2, -1, -1):
+        last = cur.children[i+1]
+        s_last = cur.children[i]
+        del cur.children[i+1]
+        tail = get_tail(s_last)
+        tail.children.append(last)
+
+
 if __name__ == '__main__':
+    '''
+    input : 
+    24
+    10 20 50 -1 60 -1 -1 30 70 -1 80 110 -1 120 -1 -1 90 -1 -1 40 100 -1 -1 -1
+    '''
     n = int(input())
     arr = [int(item) for item in input().split()]
-    '''
-       input : 
-       24
-       10 20 50 -1 60 -1 -1 30 70 -1 80 110 -1 120 -1 -1 90 -1 -1 40 100 -1 -1 -1
-    '''
     root = construct_tree(arr)
+    display_tree(root)
+    linearize(root)
+    print("after linearize : ")
     display_tree(root)

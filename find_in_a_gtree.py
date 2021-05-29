@@ -33,6 +33,17 @@ def display_tree(cur):
         display_tree(d)
 
 
+def find_in_a_gtree(cur, data):
+    if cur.data == data:
+        return cur.data
+    for c in cur.children:
+        a = find_in_a_gtree(c,data)
+        if a != -1:
+            return a
+    return -1
+
+
+
 if __name__ == '__main__':
     n = int(input())
     arr = [int(item) for item in input().split()]
@@ -43,3 +54,4 @@ if __name__ == '__main__':
     '''
     root = construct_tree(arr)
     display_tree(root)
+    print(find_in_a_gtree(root,170))
