@@ -1,4 +1,8 @@
-# 5star important
+#5star important
+
+from collections import deque
+
+
 class node:
     def __init__(self, data):
         self.data = data
@@ -22,30 +26,23 @@ def construct_tree(data_list):
     return root
 
 
-def display_tree(cur):
-    # add cur data and its children to str1
-    str1 = str(cur.data) + " ->"
-    for d in cur.children:
-        str1 += " " + str(d.data) + ","
-    str1 += " ."
-    print(str1)
-
-    for d in cur.children:
-        display_tree(d)
+overall_diameter = 0
 
 
-def node_to_root_path(cur, data):
-    if cur.data == data:
-        lis = []
-        lis.append(data)
-        return lis
-
+def find_diameter_using_modified_height(cur):
+    global overall_diameter
+    max_height = -1
+    second_max_height = -1
     for child in cur.children:
-        ret_list = node_to_root_path(child, data)
-        if ret_list:
-            ret_list.append(cur.data)
-            return ret_list
-    return []
+        height_of_child = find_diameter_using_modified_height(child)
+        if height_of_child >= max_height:
+            second_max_height = max_height
+            max_height = height_of_child
+        elif height_of_child > second_max_height:
+            second_max_height = height_of_child
+
+    overall_diameter = max(overall_diameter, max_height+second_max_height+2)  # update diameter
+    return max_height + 1   # return height of this level
 
 
 if __name__ == '__main__':
@@ -57,6 +54,5 @@ if __name__ == '__main__':
        10 20 50 -1 60 -1 -1 30 70 -1 80 110 -1 120 -1 -1 90 -1 -1 40 100 -1 -1 -1
     '''
     root = construct_tree(arr)
-    display_tree(root)
-    ret_list = node_to_root_path(root, 90)
-    print(ret_list)
+    height = find_diameter_using_modified_height(root)
+    print(overall_diameter)

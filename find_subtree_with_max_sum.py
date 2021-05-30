@@ -1,4 +1,4 @@
-#5 star   important
+import math
 class node:
     def __init__(self, data):
         self.data = data
@@ -34,33 +34,27 @@ def display_tree(cur):
         display_tree(d)
 
 
-state = 0
-pred = -1
-succ = -1
+max_subtree_sum = -math.inf
+max_subtree_node = -1
 
-
-def pred_success(cur, data):
-    global state, pred, succ
-    if state == 0:
-        if cur.data == data:
-            state = 1
-        else:
-            pred = cur.data
-    elif state == 1:
-        succ = cur.data
-        state = 2
-
-    for child in cur.children:
-        if state != 2:
-            pred_success(child, data)
-
+def node_with_max_subtree_sum(cur):
+    global max_subtree_sum,max_subtree_node
+    sum = cur.data
+    for c in cur.children:
+        sum += node_with_max_subtree_sum(c)
+    if sum > max_subtree_sum:
+        max_subtree_node = cur.data
+        max_subtree_sum = sum
+    return sum
 
 if __name__ == '__main__':
     n = int(input())
     arr = [int(item) for item in input().split()]
-    data = int(input())
+    '''
+       input : 
+       24
+       10 20 50 -1 60 -1 -1 30 70 -1 80 110 -1 120 -1 -1 90 -1 -1 40 100 -1 -1 -1
+    '''
     root = construct_tree(arr)
-    pred_success(root, data)
-    print("Predecessor = " + str(pred))
-    print("Successor = " + str(succ))
-
+    d = node_with_max_subtree_sum(root) # d will return sum at root node
+    print(str(max_subtree_node)+"@"+str(max_subtree_sum))  #format to print
